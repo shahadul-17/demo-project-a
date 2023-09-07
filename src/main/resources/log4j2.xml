@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console">
+            <PatternLayout pattern="[%d{dd-MMM-yyyy hh:mm:ss:SSS a}] [%level] [%logger{36}] [%t] %msg%n" />
+        </Console>
+        <RollingRandomAccessFile name="RollingFile" append="true" fileName="logs/application.log"
+                     filePattern="logs/$${date:MMM-yyyy}/application-%d{dd-MMM-yyyy}-%i.log.gz">
+            <PatternLayout pattern="[%d{dd-MMM-yyyy hh:mm:ss:SSS a}] [%level] [%logger{36}] [%t] %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10" />
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>

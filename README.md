@@ -1,2 +1,2 @@
-# demo-project-a
+# Demo Project A
 A demo project.

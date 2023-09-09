@@ -59,10 +59,10 @@ public class ExternalServiceImpl implements ExternalService {
             }
 
             String transactionId = splittedContent[0];
-            int statusCode = Integer.parseInt(splittedContent[1]);
+            int chargeStatusCode = Integer.parseInt(splittedContent[1]);
             String description = splittedContent[2];
 
-            return new ChargeResponse(transactionId, statusCode, description, response);
+            return new ChargeResponse(transactionId, chargeStatusCode, description, response);
         });
     }
 }

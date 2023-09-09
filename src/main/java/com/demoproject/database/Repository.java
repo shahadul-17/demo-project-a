@@ -13,7 +13,6 @@ import java.sql.SQLException;
 public interface Repository {
 
     Logger logger = LogManager.getLogger(Repository.class);
-    Connection connectionForBatchProcessing = null;
 
     String getTableName();
 

@@ -6,16 +6,16 @@ import com.demoproject.utils.JsonSerializer;
 public class ChargeResponse extends HttpResponse {
 
     private String transactionId;
-    private int statusCode;
+    private int chargeStatusCode;
     private String description;
 
     public ChargeResponse() { }
 
-    public ChargeResponse(String transactionId, int statusCode, String description, HttpResponse response) {
+    public ChargeResponse(String transactionId, int chargeStatusCode, String description, HttpResponse response) {
         super(response.getStatusCode(), response.getMessage(), response.getContent());
 
         setTransactionId(transactionId);
-        setStatusCode(statusCode);
+        setChargeStatusCode(chargeStatusCode);
         setDescription(description);
     }
 
@@ -27,12 +27,23 @@ public class ChargeResponse extends HttpResponse {
         this.transactionId = transactionId;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    /**
+     * Gets the status code that is returned
+     * by the server on successful charge.
+     * @return The status code that is returned
+     * by the server when charged successfully.
+     */
+    public int getChargeStatusCode() {
+        return chargeStatusCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    /**
+     * Sets the status code that is returned by the server
+     * on successful charge.
+     * @param chargeStatusCode The charge status code to set.
+     */
+    public void setChargeStatusCode(int chargeStatusCode) {
+        this.chargeStatusCode = chargeStatusCode;
     }
 
     public String getDescription() {

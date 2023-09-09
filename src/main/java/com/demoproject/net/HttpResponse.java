@@ -20,10 +20,18 @@ public class HttpResponse {
         setContent(content);
     }
 
+    /**
+     * Gets the HTTP status code.
+     * @return The HTTP status code.
+     */
     public int getStatusCode() {
         return statusCode;
     }
 
+    /**
+     * Sets the HTTP status code.
+     * @param statusCode HTTP status code to set.
+     */
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }

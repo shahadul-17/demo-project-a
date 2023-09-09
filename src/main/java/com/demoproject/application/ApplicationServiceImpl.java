@@ -57,13 +57,21 @@ public class ApplicationServiceImpl implements ApplicationService {
         UnlockResponse unlockResponse = externalService.unlock(message.getKeyword(),
                 message.getContent(), keywordDetails.getUnlockUrl());
         ChargeDetails chargeDetails = chargeDetailsService.getChargeDetails(unlockResponse.getPrice());
+
+        if (chargeDetails == null) {
+            throw new Exception("No charge details found for message with ID, '" + message.getMessageId()
+                    + "' content, '" + message.getContent()
+                    + "' unlock code, '" + unlockResponse.getUnlockCode()
+                    + "' and price, '" + unlockResponse.getPrice() + "'.");
+        }
+
         ChargeResponse chargeResponse = externalService.charge(
                 chargeDetails.getChargeCode(),
                 message.getMobileNumber(),
                 keywordDetails.getChargeUrl());
 
         // if the transaction is not successful...
-        if (chargeResponse.getStatusCode() != 100) {
+        if (chargeResponse.getChargeStatusCode() != 100) {
             ChargeFailureLog log = new ChargeFailureLog(0L, message.getMessageId(), message.getMobileNumber(),
                     keywordDetails.getKeywordDetailsId(), chargeDetails.getPrice(), chargeDetails.getChargeDetailsId(),
                     chargeResponse.getStatusCode(), chargeResponse.getTransactionId(),
@@ -82,9 +90,10 @@ public class ApplicationServiceImpl implements ApplicationService {
                 keywordDetails.getKeywordDetailsId(), chargeDetails.getPrice(), chargeDetails.getPriceWithVat(),
                 chargeDetails.getValidity(), chargeDetails.getChargeDetailsId(), chargeResponse.getTransactionId(),
                 chargeResponse.getDescription());
+
         // we shall write failure log...
         chargeSuccessLogService.addLogEntry(log);
-        // updates the message status to success...
+        // updates the message status to SUCCEEDED ('S')...
         messageService.setMessageStatus(message.getMessageId(), MessageStatus.SUCCEEDED);
     }
 
